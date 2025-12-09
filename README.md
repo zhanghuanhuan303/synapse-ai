@@ -22,7 +22,7 @@ Synapse is an **intelligent typesetting platform** that transforms plain text an
 
 ```bash
 pip install synapse-core
-
+```
 
 
 
