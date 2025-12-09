@@ -5,7 +5,69 @@
 Synapse is designed as a modular, extensible system for intelligent document processing. The architecture is divided into several layers, each responsible for a specific aspect of the document transformation pipeline.
 
 ## High-Level Architecture
-
+The architecture is a series of concentric, interacting layers, moving from user interaction down to infrastructure. Here is the system's blueprint:
+┌─────────────────────────────────────────────────────────────┐
+│                    USER INTERACTION LAYER                    │
+│  Provides the interface for idea capture and document review │
+├─────────────┬──────────────┬─────────────────┬──────────────┤
+│   Web App   │ Mobile Apps  │ Desktop Client  │    CLI &     │
+│  (React)    │ (React Native│   (Electron)    │    API       │
+│             │    / Swift)  │                 │              │
+└─────────────┴──────────────┴─────────────────┴──────────────┘
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│                    ORCHESTRATION LAYER                       │
+│ Manages workflows, state, and communication between services │
+├─────────────────────────────────────────────────────────────┤
+│  ► API Gateway (REST/GraphQL/WebSocket)                     │
+│  ► Real-time Sync Engine (Operational Transform / CRDTs)    │
+│  ► Job Queue & Scheduler (Celery)                           │
+│  ► Event Bus (for internal service communication)           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│                 CORE INTELLIGENCE LAYER                      │
+│     The "brain" - transforms content and applies logic       │
+│  ┌─────────────┐ ┌─────────────┐ ┌──────────────────────┐   │
+│  │   Ingestion │ │   Analysis  │ │    Transformation    │   │
+│  │  & Parsing  │ │   Engine    │ │       Engine         │   │
+│  └─────────────┘ └─────────────┘ └──────────────────────┘   │
+│          │               │               │                  │
+│      ┌───┴───────────────┴───────────────┴────┐            │
+│      │       SYNAPSE DOCUMENT MODEL            │            │
+│      │  A unified, enriched content graph      │            │
+│      │  representing structure, semantics,     │            │
+│      │  and style intent.                      │            │
+│      └─────────────────────────────────────────┘            │
+└─────────────────────────────────────────────────────────────┘
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│                    RENDERING LAYER                           │
+│   Generates final output via parallel, specialized paths     │
+│      ┌────────────────────────────────────────┐             │
+│      │     DUAL-PATH SYNAPSE ENGINE           │             │
+│      │                                        │             │
+│      │  ┌──────────────┐   ┌──────────────┐  │             │
+│      │  │   PATH A:    │   │   PATH B:    │  │             │
+│      │  │ Native LaTeX │   │  Universal   │  │             │
+│      │  │   Compiler   │◄──┤   Pipeline   │  │             │
+│      │  │              │   │  (via Pandoc)│  │             │
+│      │  └──────────────┘   └──────────────┘  │             │
+│      │          │                  │          │             │
+│      │          └───────┬──────────┘          │             │
+│      │                  ▼                     │             │
+│      │        Template & Style Engine         │             │
+│      └────────────────────────────────────────┘             │
+└─────────────────────────────────────────────────────────────┘
+                              │
+┌─────────────────────────────────────────────────────────────┐
+│                    INFRASTRUCTURE LAYER                      │
+│  Provides persistent storage, compute, and operational glue  │
+├─────────────┬──────────────┬─────────────────┬──────────────┤
+│  PostgreSQL │    Redis     │  Object Store   │   Search     │
+│  (Primary   │  (Cache &    │   (S3/OSS)      │  (Elastic)   │
+│   Database) │   Sessions)  │                 │              │
+└─────────────┴──────────────┴─────────────────┴──────────────┘
 
 ## Core Components
 
