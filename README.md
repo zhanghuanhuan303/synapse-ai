@@ -22,3 +22,8 @@ Synapse is an **intelligent typesetting platform** that transforms plain text an
 
 ```bash
 pip install synapse-core
+
+
+
+
+echo -e "\n## Project Provenance\n\nFor detailed information about this project's origin, development philosophy, and historical context, see [PROVENANCE.md](PROVENANCE.md)." >> README.md
